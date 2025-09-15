@@ -13,16 +13,16 @@ function Check-TieringModel {
 
     $result = [PSCustomObject]@{
         ID             = 24
-        Action         = "Tiered Admin Model & PAW Implementation"
+        Action         = "Tiering Admin Model & PAW Implementation"
         Status         = "UNKNOWN"
         DetectedValue  = $null
-        Recommendation = "Implement a Tiered Admin Model (Tier 0/1/2) and Privileged Access Workstations (PAW) to limit credential exposure and attack paths."
+        Recommendation = "Implement a Tiering Admin Model (Tier 0/1/2) and Privileged Access Workstations (PAW) to limit credential exposure and attack paths."
     }
 
     try {
         if (-not (Get-Module -Name ActiveDirectory -ListAvailable)) {
             $result.Status = "WARN"
-            $result.Action = "Tiered Admin Model Check Skipped"
+            $result.Action = "Tiering Admin Model Check Skipped"
             $result.DetectedValue = "Active Directory module not available"
             return $result
         }
@@ -109,23 +109,23 @@ function Check-TieringModel {
 
         if ($tieredModelIndicators.Count -ge 3 -and $missingTierGroups.Count -eq 0) {
             $result.Status = "OK"
-            $result.Action = "Tiered Admin Model Implemented"
+            $result.Action = "Tiering Admin Model Implemented"
             $result.DetectedValue = "Full implementation detected: $($tieredModelIndicators -join '; ')"
         }
         elseif ($tieredModelIndicators.Count -gt 0) {
             $result.Status = "WARN"
-            $result.Action = "Tiered Admin Model Partial"
+            $result.Action = "Tiering Admin Model Partial"
             $result.DetectedValue = "Partial implementation: $($tieredModelIndicators -join '; '); Missing groups: $($missingTierGroups -join ', ')"
         }
         else {
             $result.Status = "FAIL"
-            $result.Action = "Tiered Admin Model Missing"
-            $result.DetectedValue = "No Tiered Admin Model detected. Recommended groups: $($tierGroups -join ', ')"
+            $result.Action = "Tiering Admin Model Missing"
+            $result.DetectedValue = "No Tiering Admin Model detected. Recommended groups: $($tierGroups -join ', ')"
         }
     }
     catch {
         $result.Status = "WARN"
-        $result.Action = "Tiered Admin Model Check Error"
+        $result.Action = "Tiering Admin Model Check Error"
         $result.DetectedValue = "Error during check: $($_.Exception.Message)"
     }
 

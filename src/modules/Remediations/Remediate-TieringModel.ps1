@@ -10,11 +10,11 @@ function Remediate-TieringModel {
         $settings = @{ EnableWhatIfByDefault = $true }
     }
 
-    Write-ADHCLog "Starting Tiered Admin Model remediation (WhatIf: $($settings.EnableWhatIfByDefault))"
+    Write-ADHCLog "Starting Tiering Admin Model remediation (WhatIf: $($settings.EnableWhatIfByDefault))"
 
     try {
-        if ($PSCmdlet.ShouldProcess("Tiered Admin Model GPO", "Create GPO to implement tiered admin structure")) {
-            $gpoName = "Harden_AD_TieredAdminModel_Implement"
+        if ($PSCmdlet.ShouldProcess("Tiering Admin Model GPO", "Create GPO to implement tiering admin structure")) {
+            $gpoName = "Harden_AD_TieringAdminModel_Implement"
             
             # Check if GPO already exists
             $existingGPO = Get-GPO -Name $gpoName -ErrorAction SilentlyContinue
@@ -24,14 +24,14 @@ function Remediate-TieringModel {
             }
 
             # Create GPO
-            $gpo = New-GPO -Name $gpoName  -Comment "Implement Tiered Admin Model with separate OUs and GPOs for different privilege levels"
+            $gpo = New-GPO -Name $gpoName  -Comment "Implement Tiering Admin Model with separate OUs and GPOs for different privilege levels"
             
-            # Configure user rights assignments for tiered access
+            # Configure user rights assignments for tiering access
             $userRightsPath = "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System"
             Set-GPRegistryValue -Name $gpoName -Key $userRightsPath -ValueName "SeDenyNetworkLogonRight" -Value "Tier 0 Admins,Tier 1 Admins" -Type String
             Set-GPRegistryValue -Name $gpoName -Key $userRightsPath -ValueName "SeDenyInteractiveLogonRight" -Value "Tier 0 Admins" -Type String
             
-            # Configure restricted groups for tiered admin groups
+            # Configure restricted groups for tiering admin groups
             $restrictedGroupsPath = "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\RestrictedGroups"
             Set-GPRegistryValue -Name $gpoName -Key $restrictedGroupsPath -ValueName "Tier 0 Admins" -Value "Domain Admins,Enterprise Admins" -Type String
             Set-GPRegistryValue -Name $gpoName -Key $restrictedGroupsPath -ValueName "Tier 1 Admins" -Value "Server Operators,Backup Operators" -Type String
@@ -44,7 +44,7 @@ function Remediate-TieringModel {
             Set-GPRegistryValue -Name $gpoName -Key $auditPath -ValueName "AuditLogonEvents" -Value 3 -Type DWord
             
             Write-Host "[Remediation] GPO '$gpoName' created and exported to: $gpoName" -ForegroundColor Green
-            Write-Host "Tiered Admin Model settings:" -ForegroundColor Cyan
+            Write-Host "Tiering Admin Model settings:" -ForegroundColor Cyan
             Write-Host "  _ $userRightsPath\SeDenyNetworkLogonRight = Tier 0 Admins,Tier 1 Admins" -ForegroundColor Cyan
             Write-Host "  _ $userRightsPath\SeDenyInteractiveLogonRight = Tier 0 Admins" -ForegroundColor Cyan
             Write-Host "  _ $restrictedGroupsPath\Tier 0 Admins = Domain Admins,Enterprise Admins" -ForegroundColor Cyan
@@ -53,14 +53,14 @@ function Remediate-TieringModel {
             Write-Host "  _ $auditPath\AuditPrivilegeUse = 3 (Success and Failure)" -ForegroundColor Cyan
             Write-Host "  _ $auditPath\AuditAccountLogon = 3 (Success and Failure)" -ForegroundColor Cyan
             Write-Host "  _ $auditPath\AuditLogonEvents = 3 (Success and Failure)" -ForegroundColor Cyan
-            Write-Host "Note: This GPO provides basic tiered admin structure. Manual creation of OUs and additional GPOs is required." -ForegroundColor Yellow
-            Write-ADHCLog "Tiered Admin Model GPO created successfully"
+            Write-Host "Note: This GPO provides basic tiering admin structure. Manual creation of OUs and additional GPOs is required." -ForegroundColor Yellow
+            Write-ADHCLog "Tiering Admin Model GPO created successfully"
             
             return $gpoName
         }
     }
     catch {
-        Write-Error "Error during Tiered Admin Model remediation: $($_.Exception.Message)"
+        Write-Error "Error during Tiering Admin Model remediation: $($_.Exception.Message)"
     }
 }
 

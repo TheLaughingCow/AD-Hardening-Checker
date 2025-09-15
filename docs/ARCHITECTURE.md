@@ -83,7 +83,7 @@ AD-Hardening-Checker/
 | 21 | Credentials par défaut changés | Supprimer comptes admin locaux communs |
 | 22 | Kerberos Pre-Auth forcée | Empêcher AS-REP roasting |
 | 23 | Patch coercion (PetitPotam, etc.) | Mitiger NTLM relay via MS-EFSRPC, etc. |
-| 24 | Tiered Admin Model / PAW | Réduire surface d’attaque comptes DA |
+| 24 | Tiering Admin Model / PAW | Réduire surface d'attaque comptes DA |
 | 25 | Aucun compte PASSWD_NOTREQD | Supprimer comptes sans mot de passe |
 | 26 | Comptes de service sécurisés / gMSA | Éviter Kerberoast / mots de passe faibles |
 | 27 | Baseline Microsoft/CIS appliquée | Conformité globale des GPO et durcissement |

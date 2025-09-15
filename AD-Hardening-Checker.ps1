@@ -34,7 +34,7 @@ function Get-GPOInstructions {
         "Security Baseline Check Error" = "Configuration ordinateur > Parametres Windows > Parametres de securite > Strategies locales > Options de securite > Examiner tous les parametres"
         "Pre-Windows 2000 Check Error" = "Configuration ordinateur > Parametres Windows > Parametres de securite > Strategies locales > Attribution des droits utilisateur > 'Acceder a cet ordinateur a partir du reseau' = Supprimer Tout le monde"
         "Protected Users Group" = "Configuration ordinateur > Parametres Windows > Parametres de securite > Groupes restreints > Ajouter le groupe 'Protected Users'"
-        "Tiered Admin Model Missing" = "Creer des UO separees pour les comptes administrateur Tier 0, 1, 2 avec differents GPO"
+        "Tiering Admin Model Missing" = "Creer des UO separees pour les comptes administrateur Tier 0, 1, 2 avec differents GPO"
         "Share ACL Restriction" = "Configuration ordinateur > Parametres Windows > Parametres de securite > Strategies locales > Attribution des droits utilisateur > 'Acceder a cet ordinateur a partir du reseau' = Supprimer Tout le monde"
     }
     
@@ -449,7 +449,7 @@ elseif ($Mode -eq "Remediation") {
                         "Partial SMB Null Session Hardening" = "SMBNullSession"
                         "SMB Signing Enabled" = "SMBSigning"
                         "SMBv1 Enabled" = "SMBv1"
-                        "Tiered Admin Model Missing" = "TieringModel"
+                        "Tiering Admin Model Missing" = "TieringModel"
                         "Unconstrained Delegation Detected" = "UnconstrainedDelegation"
                     }
                     

@@ -139,7 +139,7 @@ function Get-LocalizedGPOInstructions {
             "Security Baseline Check Error" = "Computer Config > Windows Settings > Security Settings > Local Policies > Security Options > Review all settings"
             "Pre-Windows 2000 Check Error" = "Computer Config > Windows Settings > Security Settings > Local Policies > User Rights Assignment > 'Access this computer from the network' = Remove Everyone"
             "Protected Users Group" = "Computer Config > Windows Settings > Security Settings > Restricted Groups > Add 'Protected Users' group"
-            "Tiered Admin Model Missing" = "Create separate OUs for Tier 0, 1, 2 admin accounts with different GPOs"
+            "Tiering Admin Model Missing" = "Create separate OUs for Tier 0, 1, 2 admin accounts with different GPOs"
             "Share ACL Restriction" = "Computer Config > Windows Settings > Security Settings > Local Policies > User Rights Assignment > 'Access this computer from the network' = Remove Everyone"
         }
         "French" = @{
@@ -158,7 +158,7 @@ function Get-LocalizedGPOInstructions {
             "Security Baseline Check Error" = "Configuration ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Options de sécurité > Examiner tous les paramètres"
             "Pre-Windows 2000 Check Error" = "Configuration ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Attribution des droits utilisateur > 'Accéder à cet ordinateur à partir du réseau' = Supprimer Tout le monde"
             "Protected Users Group" = "Configuration ordinateur > Paramètres Windows > Paramètres de sécurité > Groupes restreints > Ajouter le groupe 'Utilisateurs protégés'"
-            "Tiered Admin Model Missing" = "Créer des UO séparées pour les comptes administrateur Tier 0, 1, 2 avec différents GPO"
+            "Tiering Admin Model Missing" = "Créer des UO séparées pour les comptes administrateur Tier 0, 1, 2 avec différents GPO"
             "Share ACL Restriction" = "Configuration ordinateur > Paramètres Windows > Paramètres de sécurité > Stratégies locales > Attribution des droits utilisateur > 'Accéder à cet ordinateur à partir du réseau' = Supprimer Tout le monde"
         }
     }
