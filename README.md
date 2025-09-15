@@ -13,18 +13,25 @@ HardenADCheck is a comprehensive PowerShell tool that allows you to audit, analy
 - Exports results to CSV
 - Automatic vulnerability detection
 - Detailed logs of all checks
+- Real-time console output with colors
+- Robust error handling
 
 ### **Analysis Mode**
-- Analyzes audit results
+- Analyzes audit results from CSV
 - Counts failures and warnings
-- Prioritizes corrections (QuickWin)2
+- Prioritizes corrections (QuickWin)
 - Exit codes for automation
+- French GPO instructions (without accents)
+- Detailed failure analysis
 
 ### **Remediation Mode**
 - Automatic correction of identified issues
 - WhatIf and Confirm support for safety
-- Selective remediation by ID
+- Selective remediation by ID or FAILED option
 - Complete action logs
+- GPO-based remediation support
+- Uniform confirmation prompts for all remediations
+- Clean summary with unique GPO names
 
 ## 📦 Installation
 
@@ -43,31 +50,44 @@ Install-WindowsFeature -Name RSAT-AD-PowerShell
 
 ### Download
 ```bash
-git clone https://github.com/your-repo/HardenADCheck.git
-cd HardenADCheck
+git clone https://github.com/your-repo/AD-Hardening-Checker.git
+cd AD-Hardening-Checker
 ```
 
 ## 🎯 Usage
 
 ### 1. Complete audit
 ```powershell
-cd src
 .\AD-Hardening-Checker.ps1 -Mode Audit
 ```
 
 ### 2. Analyze results
 ```powershell
-.\AD-Hardening-Checker.ps1 -Mode Analyse
+.\AD-Hardening-Checker.ps1 -Mode Analysis
 ```
 
 ### 3. Simulate corrections
 ```powershell
-.\AD-Hardening-Checker.ps1 -Mode Remediate -RemediationList 1,2,8 -WhatIf
+# Specific remediations
+.\AD-Hardening-Checker.ps1 -Mode Remediation @(1,2,8) -WhatIf
+
+# All failed items from audit
+.\AD-Hardening-Checker.ps1 -Mode Remediation @("FAILED") -WhatIf
+
+# Priority remediations only
+.\AD-Hardening-Checker.ps1 -Mode Remediation @("PRIORITY") -WhatIf
 ```
 
 ### 4. Apply corrections
 ```powershell
-.\AD-Hardening-Checker.ps1 -Mode Remediate -RemediationList 1,2,8 -Confirm
+# Specific remediations
+.\AD-Hardening-Checker.ps1 -Mode Remediation @(1,2,8)
+
+# All failed items from audit
+.\AD-Hardening-Checker.ps1 -Mode Remediation @("FAILED")
+
+# All available remediations
+.\AD-Hardening-Checker.ps1 -Mode Remediation @("ALL")
 ```
 
 ## 📊 Security Controls
@@ -97,7 +117,7 @@ cd src
 | 21 | Default Credentials      | Eliminate default credentials     |
 | 22 | Kerberos PreAuth         | Force Kerberos pre-authentication |
 | 23 | Coercion Patches         | Anti-coercion patches             |
-| 24 | Tiered Admin Model       | Tiered administration model       |
+| 24 | Tiering Admin Model      | Tiering administration model      |
 | 25 | PasswdNotReqd Flag       | Disable PasswdNotReqd flag        |
 | 26 | Secure Service Accounts  | Secure service accounts           |
 | 27 | Security Baseline        | General security baseline         |
@@ -119,46 +139,21 @@ The `config/settings.json` file allows customization:
   "AllowedRemediations": [1,2,3,4,5,6,7,8,9,10,12,13,14,22,25,26]
 }
 ```
+## ⚠️ Important Warning - Remediation Mode
 
-## 🔄 Recommended Workflow
+**Remediation scripts are currently under testing and are NOT yet ready for production use.**
 
-1. **Initial audit** : Identify vulnerabilities
-2. **Analysis** : Prioritize corrections
-3. **Simulation** : Test with `-WhatIf`
-4. **Remediation** : Apply corrections
-5. **Verification** : New audit to validate
-
-## 🛡️ Security
-
-- **Always test** with `-WhatIf` before application
-- **Backup** AD before remediations
-- **Test** on a test environment first
+### Security Precautions :
+- **Always test** with `-WhatIf` before any execution
+- **Backup** your Active Directory before any remediation  
+- **Test only** in test environment for now
+- **Manually validate** created GPOs before application
 - **Verify** required AD permissions
 
-## 📝 Logs and Reports
-
-- **CSV** : `results/AD_Hardening_Report.csv`
-- **Logs** : `results/logs/` (timestamped)
-- **Console** : Real-time display with colors
-
-## 🆘 Troubleshooting
-
-### Missing AD Module
-```powershell
-Get-Module -Name ActiveDirectory -ListAvailable
-Install-WindowsFeature -Name RSAT-AD-PowerShell
-```
-
-### Permission Errors
-```powershell
-# Check administrator privileges
-([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
-```
-
-### Execution Policy
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
+### Feature Status :
+- ✅ **Audit Mode** : Fully functional and stable
+- ✅ **Analysis Mode** : Fully functional and stable
+- 🚧 **Remediation Mode** : Under testing and validation
 
 ## 🤝 Contributing
 
