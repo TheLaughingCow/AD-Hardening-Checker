@@ -17,7 +17,7 @@ $ScriptRoot = Split-Path -Parent $PSCommandPath
 
 function Get-GPOInstructions {
     param([string]$CheckName)
-    # Return GPO instructions in French without accents
+
     $gpoInstructions = @{
         "Password Policy Partially Compliant" = "Configuration ordinateur > Parametres Windows > Parametres de securite > Strategies de comptes > Strategie de mot de passe"
         "LAPS Not Detected" = "Configuration ordinateur > Modeles d'administration > Systeme > LAPS > 'Activer la solution de mot de passe administrateur local' = Active"
@@ -103,7 +103,6 @@ if (Test-Path $languageUtilsPath) {
 $systemLanguage = Get-SystemLanguage
 Write-Host "System Language Detected: $systemLanguage" -ForegroundColor Cyan
 
-# Make utility functions globally available for remediation modules
 function global:Write-ADHCLog {
     param(
         [string]$Message,
@@ -178,7 +177,6 @@ if ($Mode -eq "Audit") {
     $failedChecks = 0
     $warnedChecks = 0
     
-    # Initialiser le fichier CSV (toujours le recréer pour éviter les doublons)
     $header = "ID,Action,Status,DetectedValue,Recommendation"
     $header | Out-File -FilePath $Settings.CsvPath -Encoding UTF8 -Force
     
@@ -190,15 +188,12 @@ if ($Mode -eq "Audit") {
                 $totalChecks++
                 
                 if ($null -ne $result -and $result.PSObject.Properties.Name -contains "Status") {
-                    # Exporter directement le résultat (un seul par module)
                     if ($result -is [array]) {
-                        # Si c'est un tableau, prendre seulement le premier élément
                         $result[0] | Export-Csv -Path $Settings.CsvPath -Append -NoTypeInformation -Encoding UTF8
                     } else {
                         $result | Export-Csv -Path $Settings.CsvPath -Append -NoTypeInformation -Encoding UTF8
                     }
                     
-                    # Affichage formaté avec détails
                     $statusToCheck = if ($result -is [array]) { $result[0].Status } else { $result.Status }
                     $statusIcon = switch ($statusToCheck) {
                         "PASS" { "[OK]"; $passedChecks++; "Green" }
